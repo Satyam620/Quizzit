@@ -17,6 +17,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -40,7 +41,9 @@ fun CategoryScreen(viewModel: QuizViewModel, navController: NavHostController) {
                 modifier = Modifier
                     .padding(innerPadding)
                     .background(MaterialTheme.colorScheme.background)
-                    .fillMaxSize()
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 when {
                     viewModel.categoriesState.value.loading -> {

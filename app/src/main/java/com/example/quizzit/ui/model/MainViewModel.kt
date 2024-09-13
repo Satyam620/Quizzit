@@ -17,15 +17,15 @@ class QuizViewModel : ViewModel() {
 
     fun fetchQuestions(category: Int) {
         viewModelScope.launch {
-            val response = questionService.getQuestion(category = category)
-            if (response.response_code == 0) {
+            try{
+                val response = questionService.getQuestion(category = category)
                 _questionsState.value = _questionsState.value.copy(
                     list = response.results,
                     loading = false,
                     error = null
                 )
                 initializeQuestion()
-            } else {
+            } catch (e: Exception) {
                 _questionsState.value = _questionsState.value.copy(
                     loading = false,
                     error = "Error Fetching Questions"
