@@ -1,14 +1,22 @@
 package com.example.quizzit.ui.theme
 
-import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
+
+private val LightBrown = lightColorScheme(
+    primaryContainer = primaryContainer, //TitleBar
+    secondaryContainer = secondaryContainer, //Category
+    tertiaryContainer = tertiaryContainer, //Options
+    background = backgroundColor, //Background
+    onPrimary = textColor, //TextColor
+    onBackground = textColor2, //TextOnBackground
+    onSecondary = iconSelectedColor, //SelectedIcon
+    onTertiary = iconColor, //Unselected Icon
+    surface = selectedOption,
+)
 
 private val DarkColorScheme = darkColorScheme(
     primary = primaryDark,
@@ -89,19 +97,12 @@ private val LightColorScheme = lightColorScheme(
 @Composable
 fun QuizzitTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
-//    val colorScheme = when {
-//        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-//            val context = LocalContext.current
-//            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-//        }
-//        darkTheme -> DarkColorScheme
-//        else -> LightColorScheme
-//    }
+    val color = LightBrown
     MaterialTheme(
-        colorScheme = LightColorScheme,
+        colorScheme = color,
         typography = Typography,
         content = content
     )

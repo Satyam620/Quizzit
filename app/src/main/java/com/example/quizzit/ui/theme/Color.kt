@@ -8,6 +8,17 @@ val Blue = Color(0xFF041f60)
 val lightBlue = Color(0xFF5dcad1)
 val mediumBlue = Color(0xFF004aad)
 
+//Brown Theme
+val primaryContainer = Color(0xFF3b080d) //TitleBar
+val backgroundColor = Color(0xFFFFDAD9)     //Background
+val textColor = Color(0xFFFFFFFF)
+val textColor2 = Color(0xFF904A4B)  // TextColor2
+val secondaryContainer = Color(0xFF904A4B) //SecondaryBoxes
+val tertiaryContainer = Color(0xFF66362d) //TertiaryBoxes
+val iconSelectedColor = Color(0xFFffdeae)
+val iconColor = Color(0xFFFFFFFF) //IDle icon color
+val selectedOption = Color(0xFF000000)
+
 val primaryLight = Color(0xFF904A4B)
 val onPrimaryLight = Color(0xFFFFFFFF)
 val primaryContainerLight = Color(0xFFFFDAD9)

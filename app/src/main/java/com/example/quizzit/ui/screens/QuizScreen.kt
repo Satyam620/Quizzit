@@ -1,7 +1,6 @@
 package com.example.quizzit.ui.screens
 
 import android.text.Html
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,6 +13,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,7 +21,6 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -32,28 +31,19 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.quizzit.ui.Screen
 import com.example.quizzit.ui.model.QuizViewModel
-import com.example.quizzit.ui.theme.Blue
-import com.example.quizzit.ui.theme.Purple
-import com.example.quizzit.ui.theme.Red
-import com.example.quizzit.ui.theme.lightBlue
-import com.example.quizzit.ui.theme.mediumBlue
+import com.example.quizzit.ui.theme.QuizzitTheme
 
 @Composable
 fun QuizScreen(viewModel: QuizViewModel, navController: NavHostController) {
-    val colorStops = arrayOf(
-        0.0f to Red,
-        0.8f to Purple,
-    )
-    val colorStops2 = arrayOf(
-        0.0f to lightBlue,
-        0.8f to mediumBlue,
-    )
+    val optionColor = MaterialTheme.colorScheme.tertiaryContainer
+    val selectedOpt = MaterialTheme.colorScheme.surface
+    val buttonColors =
+        remember { mutableStateListOf(optionColor, optionColor, optionColor, optionColor) }
 
-    val buttonColors = remember { mutableStateListOf(Blue, Blue, Blue, Blue) }
 
     fun updateButtonColors(selectedIndex: Int) {
-        buttonColors.fill(Blue) // Reset all to white
-        buttonColors[selectedIndex] = Purple// Highlight the selected button
+        buttonColors.fill(optionColor)
+        buttonColors[selectedIndex] = selectedOpt// Highlight the selected button
     }
 
     fun decodeHtml(encodedString: String): String {
@@ -68,7 +58,7 @@ fun QuizScreen(viewModel: QuizViewModel, navController: NavHostController) {
         Column(
             modifier = Modifier
                 .padding(innerPadding)
-                .background(Brush.horizontalGradient(colorStops = colorStops))
+                .background(MaterialTheme.colorScheme.background)
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
@@ -78,21 +68,21 @@ fun QuizScreen(viewModel: QuizViewModel, navController: NavHostController) {
                     CircularProgressIndicator(
                         strokeWidth = 10.dp,
                         modifier = Modifier.fillMaxSize(.7F),
-                        color = Color.White
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                 }
 
                 viewModel.questionsState.value.error != null -> {
-                    Text(text = "ERROR OCCURRED")
+                    Text(text = "ERROR OCCURRED", color = Color.Red, fontSize = 25.sp)
                 }
 
                 else -> {
                     Text(
                         modifier = Modifier.padding(30.dp, 20.dp, 30.dp, 10.dp),
                         text = decodeHtml(viewModel.question.value),
-                        fontSize = 20.sp,
+                        fontSize = 25.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color.White,
+                        color = MaterialTheme.colorScheme.onBackground,
                         textAlign = TextAlign.Center,
                         lineHeight = 25.sp
                     )
@@ -104,12 +94,13 @@ fun QuizScreen(viewModel: QuizViewModel, navController: NavHostController) {
                             modifier = Modifier
                                 .fillMaxWidth(.7F)
                                 .padding(end = 10.dp),
-                            color = Blue
+                            color = MaterialTheme.colorScheme.onBackground,
+                            trackColor = MaterialTheme.colorScheme.onPrimary
                         )
                         Text(
                             text = viewModel.progress.value,
                             fontSize = 20.sp,
-                            color = Color.White,
+                            color = MaterialTheme.colorScheme.onBackground,
                             fontWeight = FontWeight.Bold
                         )
                     }
@@ -131,20 +122,16 @@ fun QuizScreen(viewModel: QuizViewModel, navController: NavHostController) {
                                     .fillMaxWidth(),
                                 shape = ButtonDefaults.shape,
                                 colors = ButtonDefaults.outlinedButtonColors(
-                                    buttonColors[index],
-                                    Color.White
+                                    containerColor = buttonColors[index],
+                                    contentColor = MaterialTheme.colorScheme.onPrimary
                                 ),
-                                border = BorderStroke(
-                                    2.dp,
-                                    brush = Brush.linearGradient(colorStops = colorStops2)
-                                )
                             ) {
                                 Text(text = decodeHtml(item), fontSize = 20.sp, lineHeight = 25.sp)
                             }
                         }
                         // NEXT Button
                         SubmitButton(text = "Next") {
-                            buttonColors.fill(Blue)
+                            buttonColors.fill(optionColor)
                             viewModel.updateQuestion(selectedOption)
                             if (viewModel.navigateToScore.value) {
                                 navController.navigate(Screen.Score.route)
@@ -161,7 +148,9 @@ fun QuizScreen(viewModel: QuizViewModel, navController: NavHostController) {
 @Preview(showBackground = true)
 @Composable
 fun QuizScreenPreview() {
-    val viewModel = QuizViewModel()
-    val context = LocalContext.current
-    QuizScreen(viewModel, NavHostController(context))
+    QuizzitTheme {
+        val viewModel = QuizViewModel()
+        val context = LocalContext.current
+        QuizScreen(viewModel, NavHostController(context))
+    }
 }

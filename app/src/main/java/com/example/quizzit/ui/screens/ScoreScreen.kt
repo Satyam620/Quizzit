@@ -8,13 +8,12 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -26,60 +25,58 @@ import androidx.navigation.NavHostController
 import com.example.quizzit.R
 import com.example.quizzit.ui.Screen
 import com.example.quizzit.ui.model.QuizViewModel
-import com.example.quizzit.ui.theme.Purple
-import com.example.quizzit.ui.theme.Red
+import com.example.quizzit.ui.theme.QuizzitTheme
 
 @Composable
 fun ScoreScreen(viewModel: QuizViewModel, navController: NavHostController) {
-    val colorStops = arrayOf(
-        0.0f to Red,
-        0.8f to Purple,
-    )
-    Scaffold(
-        topBar = {
-            TopBar(name = "Score")
-        }
-    ) { innerPadding ->
-        Column(
-            modifier = Modifier
-                .padding(innerPadding)
-                .background(Brush.horizontalGradient(colorStops = colorStops))
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+    QuizzitTheme {
+        Scaffold(
+            topBar = {
+                TopBar(name = "Score")
+            }
+        ) { innerPadding ->
             Column(
-                modifier = Modifier.padding(30.dp),
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .background(MaterialTheme.colorScheme.background)
+                    .fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
-                    text = "Congratulations",
-                    fontSize = 40.sp,
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold
-                )
-                Image(
-                    modifier = Modifier.padding(20.dp),
-                    painter = painterResource(id = R.drawable.trophy),
-                    contentDescription = "Trophy Image"
-                )
-                Text(
-                    text = "Your score is ${viewModel.totalScore}",
-                    fontSize = 40.sp,
-                    color = Color.White,
-                    modifier = Modifier.width(IntrinsicSize.Max).padding(bottom = 30.dp),
-                    lineHeight = 50.sp,
-                    fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center
-                )
-                SubmitButton(text = "Finish") {
-                    navController.navigate(Screen.Home.route)
+                Column(
+                    modifier = Modifier.padding(30.dp),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "Congratulations",
+                        fontSize = 40.sp,
+                        color = MaterialTheme.colorScheme.onBackground,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Image(
+                        modifier = Modifier.padding(20.dp),
+                        painter = painterResource(id = R.drawable.trophy),
+                        contentDescription = "Trophy Image"
+                    )
+                    Text(
+                        text = "Your score is ${viewModel.totalScore}",
+                        fontSize = 40.sp,
+                        color = MaterialTheme.colorScheme.onBackground,
+                        modifier = Modifier
+                            .width(IntrinsicSize.Max)
+                            .padding(bottom = 30.dp),
+                        lineHeight = 50.sp,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center
+                    )
+                    SubmitButton(text = "Finish") {
+                        navController.navigate(Screen.Home.route)
+                    }
                 }
             }
         }
     }
-
 }
 
 @Preview(showBackground = true)

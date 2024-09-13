@@ -11,13 +11,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,20 +25,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.quizzit.ui.model.LeaderBoardItem
 import com.example.quizzit.ui.model.QuizViewModel
-import com.example.quizzit.ui.theme.Blue
-import com.example.quizzit.ui.theme.Purple
-import com.example.quizzit.ui.theme.Red
+import com.example.quizzit.ui.theme.QuizzitTheme
 
 @Composable
 fun LeaderBoardScreen(viewModel: QuizViewModel, navController: NavHostController) {
-    // Gradient colors for the background
-    val backgroundGradient = Brush.horizontalGradient(0.0f to Red, 0.8f to Purple)
-
-    val colorStops2 = arrayOf(
-        0.0f to Purple,
-        0.8f to Color.Red,
-    )
-
     Scaffold(
         topBar = { TopBar("Leaderboard") },
         bottomBar = { BottomBar("Leaderboard", navController) }
@@ -47,7 +36,7 @@ fun LeaderBoardScreen(viewModel: QuizViewModel, navController: NavHostController
         Column(
             modifier = Modifier
                 .padding(innerPadding)
-                .background(backgroundGradient)
+                .background(MaterialTheme.colorScheme.background)
                 .fillMaxSize()
         ) {
             //TODO Change the value inside the function.
@@ -55,7 +44,10 @@ fun LeaderBoardScreen(viewModel: QuizViewModel, navController: NavHostController
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 10.dp, horizontal = 16.dp)
-                    .background(Brush.horizontalGradient(colorStops = colorStops2), shape = RoundedCornerShape(8.dp))
+                    .background(
+                        MaterialTheme.colorScheme.tertiaryContainer,
+                        shape = RoundedCornerShape(10.dp)
+                    )
                     .padding(16.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
@@ -64,21 +56,21 @@ fun LeaderBoardScreen(viewModel: QuizViewModel, navController: NavHostController
                     text = "RANK",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.ExtraBold,
-                    color = Color.White,
+                    color = MaterialTheme.colorScheme.onSecondary,
                     maxLines = 1
                 )
                 Text(
                     text = "NAME",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.ExtraBold,
-                    color = Color.White,
+                    color = MaterialTheme.colorScheme.onSecondary,
                     maxLines = 1
                 )
                 Text(
                     text = "SCORE",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.ExtraBold,
-                    color = Color.White,
+                    color = MaterialTheme.colorScheme.onSecondary,
                     maxLines = 1
                 )
             }
@@ -109,7 +101,10 @@ fun LeaderboardColumn(rank: String, name: String, score: String) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 10.dp, horizontal = 16.dp)
-            .background(Blue, shape = RoundedCornerShape(8.dp))
+            .background(
+                MaterialTheme.colorScheme.secondaryContainer,
+                shape = RoundedCornerShape(25.dp)
+            )
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
@@ -118,21 +113,21 @@ fun LeaderboardColumn(rank: String, name: String, score: String) {
             text = rank,
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
-            color = Color.White,
+            color = MaterialTheme.colorScheme.onPrimary,
             maxLines = 1
         )
         Text(
             text = name,
             fontSize = 20.sp,
             fontWeight = FontWeight.Normal,
-            color = Color.White,
+            color = MaterialTheme.colorScheme.onPrimary,
             maxLines = 1
         )
         Text(
             text = score,
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
-            color = Color.White,
+            color = MaterialTheme.colorScheme.onPrimary,
             maxLines = 1
         )
     }
@@ -141,5 +136,7 @@ fun LeaderboardColumn(rank: String, name: String, score: String) {
 @Preview
 @Composable
 fun LeaderboardPreview() {
-    LeaderBoardScreen(QuizViewModel(), NavHostController(LocalContext.current))
+    QuizzitTheme {
+        LeaderBoardScreen(QuizViewModel(), NavHostController(LocalContext.current))
+    }
 }
