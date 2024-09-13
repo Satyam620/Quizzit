@@ -1,6 +1,5 @@
 package com.example.quizzit.ui.model
 
-import android.text.Html
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -29,7 +28,7 @@ class QuizViewModel : ViewModel() {
             } else {
                 _questionsState.value = _questionsState.value.copy(
                     loading = false,
-                    error = "Error Fetching Questions ${response.response_code}"
+                    error = "Error Fetching Questions"
                 )
             }
         }
